@@ -1,0 +1,182 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* Navy palette from hex.PNG */
+    --navy-950: 13 27 42;     /* #0D1B2A */
+    --navy-800: 27 38 59;     /* #1B263B */
+    --navy-600: 65 90 119;    /* #415A77 */
+    --navy-400: 119 141 169;  /* #778DA9 */
+    --navy-50: 224 225 221;   /* #E0E1DD */
+    
+    --background: 13 27 42;
+    --foreground: 224 225 221;
+    --card: 27 38 59;
+    --card-foreground: 224 225 221;
+    --border: 65 90 119;
+    --input: 65 90 119;
+    --ring: 119 141 169;
+  }
+
+  * {
+    @apply border-primary-600/50;
+  }
+
+  body {
+    @apply bg-primary-950 text-primary-50 font-sans antialiased;
+    background-image: 
+      radial-gradient(at 0% 0%, rgba(65, 90, 119, 0.15) 0px, transparent 50%),
+      radial-gradient(at 100% 100%, rgba(119, 141, 169, 0.1) 0px, transparent 50%);
+    background-attachment: fixed;
+    min-height: 100vh;
+  }
+
+  /* Custom scrollbar */
+  ::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+
+  ::-webkit-scrollbar-track {
+    @apply bg-primary-800;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    @apply bg-primary-600 rounded-full;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    @apply bg-primary-400;
+  }
+}
+
+@layer components {
+  .btn {
+    @apply inline-flex items-center justify-center gap-2 rounded-xl font-medium transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-primary-950 disabled:opacity-50 disabled:cursor-not-allowed;
+  }
+
+  .btn-primary {
+    @apply btn bg-gradient-to-r from-primary-600 to-primary-500 text-primary-50 hover:from-primary-500 hover:to-primary-400 focus:ring-primary-400 shadow-lg shadow-primary-600/30;
+  }
+
+  .btn-secondary {
+    @apply btn bg-primary-800 text-primary-50 hover:bg-primary-700 focus:ring-primary-600 border border-primary-600/30;
+  }
+
+  .btn-ghost {
+    @apply btn bg-transparent text-primary-400 hover:bg-primary-800 hover:text-primary-50 focus:ring-primary-600;
+  }
+
+  .btn-danger {
+    @apply btn bg-red-600 text-white hover:bg-red-700 focus:ring-red-500;
+  }
+
+  .btn-sm {
+    @apply px-3 py-1.5 text-sm;
+  }
+
+  .btn-md {
+    @apply px-4 py-2 text-sm;
+  }
+
+  .btn-lg {
+    @apply px-6 py-3 text-base;
+  }
+
+  .input {
+    @apply w-full rounded-xl border border-primary-600/50 bg-primary-800/50 px-4 py-3 text-primary-50 placeholder-primary-400/70 transition-all duration-200 focus:border-primary-400 focus:outline-none focus:ring-2 focus:ring-primary-400/20 backdrop-blur-sm;
+  }
+
+  /* Date input calendar icon styling */
+  input[type="date"]::-webkit-calendar-picker-indicator {
+    filter: invert(1);
+    cursor: pointer;
+    opacity: 0.8;
+    transition: opacity 0.2s;
+  }
+
+  input[type="date"]::-webkit-calendar-picker-indicator:hover {
+    opacity: 1;
+  }
+
+  .label {
+    @apply block text-sm font-medium text-primary-400 mb-1.5;
+  }
+
+  .card {
+    @apply rounded-2xl border border-primary-600/30 bg-primary-800/50 backdrop-blur-sm shadow-xl;
+  }
+
+  .card-hover {
+    @apply card transition-all duration-300 hover:border-primary-600/60 hover:shadow-2xl hover:shadow-primary-600/10;
+  }
+
+  .badge {
+    @apply inline-flex items-center gap-1 rounded-full px-2.5 py-1 text-xs font-medium;
+  }
+
+  .badge-todo {
+    @apply badge bg-primary-700 text-primary-300;
+  }
+
+  .badge-in-progress {
+    @apply badge bg-primary-600/30 text-primary-400;
+  }
+
+  .badge-completed {
+    @apply badge bg-emerald-500/20 text-emerald-400;
+  }
+
+  .badge-low {
+    @apply badge bg-primary-700/50 text-primary-400;
+  }
+
+  .badge-medium {
+    @apply badge bg-amber-500/20 text-amber-400;
+  }
+
+  .badge-high {
+    @apply badge bg-red-500/20 text-red-400;
+  }
+
+  .glass {
+    @apply bg-primary-800/30 backdrop-blur-xl border border-primary-600/30;
+  }
+}
+
+@layer utilities {
+  .text-gradient {
+    @apply bg-gradient-to-r from-primary-400 via-primary-300 to-primary-50 bg-clip-text text-transparent;
+  }
+
+  .text-gradient-subtle {
+    @apply bg-gradient-to-r from-primary-50 to-primary-400 bg-clip-text text-transparent;
+  }
+
+  .animate-gradient {
+    background-size: 200% 200%;
+    animation: gradient 8s ease infinite;
+  }
+
+  @keyframes gradient {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+  }
+
+  /* Navy-themed surface utilities */
+  .surface-dark {
+    @apply bg-primary-950;
+  }
+
+  .surface-card {
+    @apply bg-primary-800;
+  }
+
+  .surface-elevated {
+    @apply bg-primary-700;
+  }
+}
+

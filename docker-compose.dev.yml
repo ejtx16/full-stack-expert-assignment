@@ -1,0 +1,76 @@
+version: "3.8"
+
+services:
+  # PostgreSQL Database
+  db:
+    image: postgres:16-alpine
+    container_name: taskmanager-db-dev
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: taskmanager
+    volumes:
+      - postgres_data_dev:/var/lib/postgresql/data
+    ports:
+      - "5433:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d taskmanager"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - taskmanager-network-dev
+
+  # Backend API (Development with hot reload)
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile.dev
+    container_name: taskmanager-backend-dev
+    restart: unless-stopped
+    environment:
+      NODE_ENV: development
+      PORT: 3000
+      DATABASE_URL: postgresql://postgres:postgres@db:5432/taskmanager?schema=public
+      JWT_SECRET: dev-jwt-secret-key
+      JWT_EXPIRES_IN: 15m
+      REFRESH_TOKEN_SECRET: dev-refresh-token-secret-key
+      REFRESH_TOKEN_EXPIRES_IN: 7d
+      CORS_ORIGIN: http://localhost:5173
+    volumes:
+      - ./backend/src:/app/src
+      - ./backend/prisma:/app/prisma
+    ports:
+      - "3000:3000"
+    depends_on:
+      db:
+        condition: service_healthy
+    networks:
+      - taskmanager-network-dev
+
+  # Frontend (Development with hot reload)
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile.dev
+    container_name: taskmanager-frontend-dev
+    restart: unless-stopped
+    environment:
+      VITE_API_URL: http://localhost:3000/api
+    volumes:
+      - ./frontend/src:/app/src
+      - ./frontend/public:/app/public
+    ports:
+      - "5173:5173"
+    depends_on:
+      - backend
+    networks:
+      - taskmanager-network-dev
+
+volumes:
+  postgres_data_dev:
+
+networks:
+  taskmanager-network-dev:
+    driver: bridge
