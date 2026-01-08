@@ -100,21 +100,6 @@ docker-compose down               # Stop services
 docker-compose logs -f backend    # View logs
 ```
 
-## CI/CD Pipeline & Deployment
-
-This project uses **GitHub Actions** for CI and **Render** for deployment.
-
-**Pipeline:** Push to `main` → Lint → Test → Build → Deploy to Render
-
-1. Sign up at [render.com](https://render.com) with GitHub
-2. Create PostgreSQL database
-3. Deploy backend (Web Service) from `backend/` folder
-4. Deploy frontend (Static Site) from `frontend/` folder
-
-For detailed step-by-step instructions, see:
-
-- **[CI/CD Guide](/project-documentations/ci-cd-guide.md)** - Complete Render deployment guide with screenshots
-
 ### GitHub Secrets Setup
 
 To enable auto-deployment after CI passes, add these secrets to your GitHub repository:
