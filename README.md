@@ -106,8 +106,6 @@ This project uses **GitHub Actions** for CI and **Render** for deployment.
 
 **Pipeline:** Push to `main` → Lint → Test → Build → Deploy to Render
 
-### Quick Deploy to Render
-
 1. Sign up at [render.com](https://render.com) with GitHub
 2. Create PostgreSQL database
 3. Deploy backend (Web Service) from `backend/` folder
@@ -127,15 +125,6 @@ To enable auto-deployment after CI passes, add these secrets to your GitHub repo
 | ----------------------------- | ------------------------------------------ |
 | `RENDER_BACKEND_DEPLOY_HOOK`  | Render → Backend → Settings → Deploy Hook  |
 | `RENDER_FRONTEND_DEPLOY_HOOK` | Render → Frontend → Settings → Deploy Hook |
-
-**Optional (for health checks):**
-
-| Secret                | Value                                |
-| --------------------- | ------------------------------------ |
-| `RENDER_BACKEND_URL`  | `https://your-backend.onrender.com`  |
-| `RENDER_FRONTEND_URL` | `https://your-frontend.onrender.com` |
-
-See the [CI/CD Guide](/project-documentations/ci-cd-guide.md) for detailed setup instructions with screenshots.
 
 ## Project Structure
 
