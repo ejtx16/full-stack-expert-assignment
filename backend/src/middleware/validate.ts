@@ -12,7 +12,8 @@ export const validate = (schemas: ValidationSchemas) => {
   return (req: Request, res: Response, next: NextFunction): void => {
     try {
       if (schemas.body) {
-        req.body = schemas.body.parse(req.body) as typeof req.body;
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+        req.body = schemas.body.parse(req.body);
       }
       if (schemas.query) {
         req.query = schemas.query.parse(req.query) as typeof req.query;
