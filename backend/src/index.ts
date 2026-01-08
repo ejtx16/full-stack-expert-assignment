@@ -20,16 +20,21 @@ const startServer = async () => {
     });
 
     // Graceful shutdown
-    const gracefulShutdown = async (signal: string) => {
+    const gracefulShutdown = (signal: string): void => {
       logger.info(`${signal} received. Starting graceful shutdown...`);
 
-      server.close(async () => {
+      server.close(() => {
         logger.info('HTTP server closed');
 
-        await disconnectDatabase();
-        logger.info('Database connection closed');
-
-        process.exit(0);
+        disconnectDatabase()
+          .then(() => {
+            logger.info('Database connection closed');
+            process.exit(0);
+          })
+          .catch((err: unknown) => {
+            logger.error('Error during database disconnect:', err);
+            process.exit(1);
+          });
       });
 
       // Force shutdown after 30 seconds
@@ -39,8 +44,8 @@ const startServer = async () => {
       }, 30000);
     };
 
-    process.on('SIGTERM', () => gracefulShutdown('SIGTERM'));
-    process.on('SIGINT', () => gracefulShutdown('SIGINT'));
+    process.on('SIGTERM', () => { gracefulShutdown('SIGTERM'); });
+    process.on('SIGINT', () => { gracefulShutdown('SIGINT'); });
 
     // Handle uncaught exceptions
     process.on('uncaughtException', (error) => {
@@ -48,8 +53,8 @@ const startServer = async () => {
       process.exit(1);
     });
 
-    process.on('unhandledRejection', (reason, promise) => {
-      logger.error('Unhandled Rejection at:', promise, 'reason:', reason);
+    process.on('unhandledRejection', (reason: unknown) => {
+      logger.error('Unhandled Rejection:', reason);
       process.exit(1);
     });
   } catch (error) {
@@ -58,5 +63,5 @@ const startServer = async () => {
   }
 };
 
-startServer();
+void startServer();
 

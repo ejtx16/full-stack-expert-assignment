@@ -1,7 +1,7 @@
 import { prisma } from '../config/database.js';
 import { NotFoundError, ForbiddenError } from '../utils/errors.js';
 import type { CreateTaskInput, UpdateTaskInput, TaskQueryInput } from '../validators/task.js';
-import type { Task, TaskStatus, TaskPriority, Prisma } from '@prisma/client';
+import type { TaskStatus, TaskPriority, Prisma } from '@prisma/client';
 
 export interface TaskResponse {
   id: string;
