@@ -41,7 +41,7 @@ export default function LoginPage() {
   };
 
   const fillDemoCredentials = () => {
-    setValue('email', 'demo@example.com');
+    setValue('email', 'jamesplatinotomes@gmail.com');
     setValue('password', 'Password123');
     setShowDemoHint(false);
   };
@@ -179,7 +179,7 @@ export default function LoginPage() {
               >
                 <p className="text-xs text-primary-400 mb-1">Click to fill demo credentials</p>
                 <p className="text-xs font-mono text-primary-300 group-hover:text-primary-200">
-                  demo@example.com
+                  jamesplatinotomes@gmail.com - Render account
                 </p>
               </button>
             </motion.div>
