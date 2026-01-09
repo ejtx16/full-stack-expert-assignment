@@ -1,6 +1,6 @@
 # Task Management Application
 
-A full-stack task management application built with React, Express.js, PostgreSQL, and Docker.
+A full-stack task management application built with React, Express.js, PostgreSQL, and Docker deployed on render.
 
 ## Features
 
@@ -15,6 +15,10 @@ A full-stack task management application built with React, Express.js, PostgreSQ
 **Frontend**: React 18 + TypeScript + Vite + Tailwind CSS + React Query  
 **Backend**: Node.js + Express + TypeScript + Prisma + PostgreSQL  
 **DevOps**: Docker + Docker Compose + GitHub Actions
+
+## Render App
+
+Live link: https://taskmanager-frontend-vdo4.onrender.com/login
 
 ## Quick Start
 
@@ -61,25 +65,11 @@ npm run dev
 # Access at http://localhost:5173
 ```
 
-### Demo Credentials
-
-- **Email**: demo@example.com
-- **Password**: Password123
-
 ## Documentation
 
 - **[API Documentation](/project-documentations/api-docs.md)** - Detailed API endpoints, request/response examples, and authentication flow
 - **[Technical Decisions](/project-documentations/technical-decisions.md)** - Assumptions and decisions made during development
 - **[Design Notes](/project-documentations/design-notes.md)** - Design considerations and decisions
-
-## Environment Variables
-
-See `backend/env.example` for required variables:
-
-- `DATABASE_URL` - PostgreSQL connection string
-- `JWT_SECRET` - JWT signing secret
-- `REFRESH_TOKEN_SECRET` - Refresh token secret
-- `CORS_ORIGIN` - Allowed CORS origin
 
 ## Development Commands
 
@@ -99,17 +89,6 @@ docker-compose up -d              # Start services
 docker-compose down               # Stop services
 docker-compose logs -f backend    # View logs
 ```
-
-### GitHub Secrets Setup
-
-To enable auto-deployment after CI passes, add these secrets to your GitHub repository:
-
-**Settings → Secrets and variables → Actions → New repository secret**
-
-| Secret                        | How to Get It                              |
-| ----------------------------- | ------------------------------------------ |
-| `RENDER_BACKEND_DEPLOY_HOOK`  | Render → Backend → Settings → Deploy Hook  |
-| `RENDER_FRONTEND_DEPLOY_HOOK` | Render → Frontend → Settings → Deploy Hook |
 
 ## Project Structure
 
