@@ -1,10 +1,7 @@
-import { createContext, useContext, useState, useEffect, useCallback, ReactNode } from 'react';
+/* eslint-disable react-refresh/only-export-components */
+import { createContext, useContext, useState, useEffect, ReactNode } from 'react';
 import { authApi, getErrorMessage } from '../services/api';
-import {
-  getAccessToken,
-  setTokens,
-  clearTokens,
-} from '../utils/storage';
+import { getAccessToken, setTokens, clearTokens } from '../utils/storage';
 import type { User, LoginInput, RegisterInput } from '../types';
 import toast from 'react-hot-toast';
 
@@ -23,27 +20,44 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
   const [isLoading, setIsLoading] = useState(true);
 
-  const fetchUser = useCallback(async () => {
-    const token = getAccessToken();
-    if (!token) {
-      setIsLoading(false);
-      return;
-    }
-
-    try {
-      const userData = await authApi.getMe();
-      setUser(userData);
-    } catch {
-      clearTokens();
-      setUser(null);
-    } finally {
-      setIsLoading(false);
-    }
-  }, []);
-
   useEffect(() => {
+    let isMounted = true;
+
+    const fetchUser = async () => {
+      const token = getAccessToken();
+      if (!token) {
+        if (isMounted) {
+          setIsLoading(false);
+        }
+        return;
+      }
+
+      try {
+        const userData = await authApi.getMe();
+        if (isMounted) {
+          setUser(userData);
+        }
+      } catch (error) {
+        // Only clear tokens if it's an auth error (401/403)
+        if (isMounted) {
+          console.error('Failed to fetch user:', error);
+          clearTokens();
+          setUser(null);
+        }
+      } finally {
+        if (isMounted) {
+          setIsLoading(false);
+        }
+      }
+    };
+
     fetchUser();
-  }, [fetchUser]);
+
+    // Cleanup function 
+    return () => {
+      isMounted = false;
+    };
+  }, []); 
 
   const login = async (data: LoginInput) => {
     try {
@@ -106,4 +120,3 @@ export function useAuth() {
   }
   return context;
 }
-

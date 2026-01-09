@@ -1,7 +1,7 @@
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
-import { Calendar, Type, AlignLeft, ListTodo, Flag, ArrowRight } from 'lucide-react';
+import { Type, AlignLeft, ListTodo, Flag, ArrowRight } from 'lucide-react';
 import type { Task, CreateTaskInput, UpdateTaskInput } from '../types';
 import { cn } from '../utils/cn';
 import { toInputDateString } from '../utils/date';
