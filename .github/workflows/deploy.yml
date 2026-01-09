@@ -98,16 +98,15 @@ jobs:
           sleep 60
 
       - name: Check Backend Health
-        if: ${{ secrets.RENDER_BACKEND_URL != '' }}
+        env:
+          BACKEND_URL: ${{ secrets.RENDER_BACKEND_URL }}
         run: |
-          BACKEND_URL="${{ secrets.RENDER_BACKEND_URL }}"
-
           if [ -z "$BACKEND_URL" ]; then
             echo "RENDER_BACKEND_URL not set, skipping health check"
             exit 0
           fi
 
-          echo "🔍 Checking backend health at $BACKEND_URL/api/health..."
+          echo "Checking backend health at $BACKEND_URL/api/health..."
 
           for i in {1..5}; do
             response=$(curl -s -o /dev/null -w "%{http_code}" "$BACKEND_URL/api/health" || echo "000")
@@ -124,10 +123,9 @@ jobs:
           echo "Backend health check inconclusive (may still be deploying)"
 
       - name: Check Frontend Health
-        if: ${{ secrets.RENDER_FRONTEND_URL != '' }}
+        env:
+          FRONTEND_URL: ${{ secrets.RENDER_FRONTEND_URL }}
         run: |
-          FRONTEND_URL="${{ secrets.RENDER_FRONTEND_URL }}"
-
           if [ -z "$FRONTEND_URL" ]; then
             echo "RENDER_FRONTEND_URL not set, skipping health check"
             exit 0
