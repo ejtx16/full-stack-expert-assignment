@@ -1,72 +1,217 @@
-Objective
+# Full-Stack Developer Assessment
 
-The goal of this assignment is to evaluate your frontend and backend development skills, along with your ability to work with containerization, API design, database management, and CI/CD pipelines. The estimated time to complete the assignment is 2-3 days however you may take a maximum of one week from the date of receiving this assignment.
+## Project: Task Management Application
 
-**Assignment Overview**
+---
 
-You are required to develop a task management web application with the following features: Core Requirements:
+## Overview
 
-**1\. User Authentication & Authorization**
+This technical assessment evaluates proficiency in **full-stack development**, encompassing frontend and backend development, database design, containerization, and CI/CD implementation. The project requires building a production-ready task management web application with modern architecture and best practices.
 
-○ Implement signup/login functionality using JWT-based authentication. ○ Users should be able to create an account, log in, and manage their sessions securely.
+**Estimated Duration:** 2-3 days (Maximum: 1 week from assignment date)
 
-**2\. Task Management**
+---
 
-○ Users can Create, Read, Update, and Delete (CRUD) tasks. (Example: Product Inventory Hub to edit products)
+## Technical Requirements
 
-○ Users should only be able to access and modify their own tasks.
+### 1. User Authentication & Authorization
 
-**3\. Frontend Development**
+| Requirement | Description |
+|-------------|-------------|
+| **Authentication Method** | JWT-based authentication with secure token management |
+| **User Registration** | Email/password signup with validation |
+| **Session Management** | Secure login/logout with token refresh mechanism |
+| **Authorization** | Role-based access control ensuring users can only access their own resources |
 
-○ Build a responsive web application using React, Vue, or Angular.
+**Security Considerations:**
+- Password hashing using industry-standard algorithms (bcrypt recommended)
+- Secure token storage and transmission
+- Protection against common vulnerabilities (XSS, CSRF, SQL Injection)
 
-○ Use Redux, Vuex, or Context API for state management.
+---
 
-○ Implement form validation and error handling.
+### 2. Task Management (CRUD Operations)
 
-**4\. Backend Development**
+| Operation | Description | Access Control |
+|-----------|-------------|----------------|
+| **Create** | Users can create new tasks with title, description, status, priority, and due date | Authenticated users only |
+| **Read** | View individual tasks or paginated task lists with filtering/sorting | Own tasks only |
+| **Update** | Modify task details including status transitions | Own tasks only |
+| **Delete** | Remove tasks permanently | Own tasks only |
 
-○ Use Node.js (Express.js) or Python (Django/FastAPI) to develop the backend API. ○ Implement RESTful API endpoints for authentication and task management. ○ Ensure proper request validation and error handling.
+**Task Properties:**
+- Title (required, max 200 characters)
+- Description (optional, max 1000 characters)
+- Status: `TODO` | `IN_PROGRESS` | `DONE`
+- Priority: `LOW` | `MEDIUM` | `HIGH`
+- Due Date (optional)
+- Timestamps (created/updated)
 
-**5\. Database Management**
+---
 
-○ Use PostgreSQL, MySQL, or MongoDB to store user and task data.
+### 3. Frontend Development
 
-○ Use ORM such as Sequelize, Prisma, or Mongoose for database interactions. ○ Add database seed scripts to create the DB with tables
+| Aspect | Requirements |
+|--------|--------------|
+| **Framework** | React, Vue.js, or Angular |
+| **State Management** | Redux, Vuex, Context API, or React Query |
+| **Styling** | Responsive design (mobile-first approach recommended) |
+| **Forms** | Client-side validation with user-friendly error messages |
+| **UX** | Loading states, error handling, and intuitive navigation |
 
-**6\. Containerization & DevOps**
+**Recommended Implementations:**
+- Component-based architecture
+- TypeScript for type safety
+- Modern CSS (Tailwind CSS, styled-components, or CSS Modules)
+- Accessibility compliance (WCAG guidelines)
 
-○ Dockerize the application using Docker and Docker Compose.
+---
 
-○ Provide a Dockerfile for the backend and frontend.
+### 4. Backend Development
 
-○ Set up a CI/CD pipeline using GitHub Actions, GitLab CI/CD, or Jenkins to automate builds and tests.  
-**Bonus (Optional but Preferred)**
+| Aspect | Requirements |
+|--------|--------------|
+| **Runtime/Framework** | Node.js (Express.js) or Python (Django/FastAPI) |
+| **API Design** | RESTful endpoints following HTTP conventions |
+| **Validation** | Request body validation with descriptive error messages |
+| **Error Handling** | Consistent error response format with appropriate HTTP status codes |
 
-● Implement Task Notifications (via WebSockets, email, or push notifications). ● Write Unit and Integration Tests using Jest, Mocha, or PyTest.
+**API Response Format:**
+```json
+// Success Response
+{
+  "success": true,
+  "data": { ... },
+  "message": "Operation successful"
+}
 
-● Deploy the application on a cloud platform (AWS/GCP/Azure) with a CI/CD pipeline. ● Use Kubernetes for container orchestration.
+// Error Response
+{
+  "success": false,
+  "error": {
+    "code": "ERROR_CODE",
+    "message": "Human-readable message",
+    "details": [ ... ]
+  }
+}
+```
 
-Submission Guidelines:
+---
 
-● Submit the source code via a GitHub repository (ensure it is public or provide access). ● Include a README.md with the following details:
+### 5. Database Management
 
-○ Setup instructions.
+| Aspect | Requirements |
+|--------|--------------|
+| **Database** | PostgreSQL, MySQL, or MongoDB |
+| **ORM/ODM** | Sequelize, Prisma, Mongoose, or equivalent |
+| **Migrations** | Version-controlled schema migrations |
+| **Seed Data** | Database seed scripts for initial setup and testing |
 
-○ API documentation.
+**Schema Considerations:**
+- Proper indexing on frequently queried fields
+- Referential integrity constraints
+- Audit timestamps on all entities
 
-○ Any assumptions or decisions made.
+---
 
-● Ensure the application is fully functional and tested before submission.
+### 6. Containerization & DevOps
 
-Evaluation Criteria:
+| Component | Requirements |
+|-----------|--------------|
+| **Docker** | Dockerfiles for both frontend and backend |
+| **Docker Compose** | Multi-service orchestration for local development |
+| **CI/CD Pipeline** | Automated builds, tests, and deployments |
 
-1\. Code Quality & Best Practices (Clean, modular, maintainable code) 2\. Frontend Implementation (UI/UX, state management, responsiveness) 3\. Backend API Design (Security, efficiency, error handling)
+**CI/CD Requirements:**
+- Automated linting and type checking
+- Unit and integration test execution
+- Docker image building and verification
+- Deployment automation (GitHub Actions, GitLab CI/CD, or Jenkins)
 
-4\. Database Schema & Queries (Optimization, indexing, ORM usage)
+---
 
-5\. Containerization & CI/CD (Proper Dockerization, automated workflows) 6\. Testing & Documentation (Unit tests, API documentation, setup instructions)
+## Bonus Features (Optional but Preferred)
 
-Questions?
+| Feature | Description | Complexity |
+|---------|-------------|------------|
+| **Task Notifications** | WebSocket, email, or push notification alerts | Medium |
+| **Unit/Integration Tests** | Jest, Mocha, PyTest, or equivalent | Medium |
+| **Cloud Deployment** | Deploy to AWS, GCP, Azure, or Render | High |
+| **Kubernetes** | Container orchestration with K8s | Advanced |
 
-If you have any questions, feel free to reach out\!
+---
+
+## Submission Requirements
+
+### Repository Setup
+- [ ] Public GitHub repository (or provide collaborator access)
+- [ ] Clean commit history with meaningful messages
+- [ ] `.gitignore` configured appropriately
+- [ ] No sensitive data (secrets, credentials) in repository
+
+### Documentation (README.md)
+- [ ] **Project Overview** - Brief description of the application
+- [ ] **Tech Stack** - Technologies used with versions
+- [ ] **Setup Instructions** - Step-by-step local development setup
+- [ ] **API Documentation** - Endpoint details with request/response examples
+- [ ] **Architecture Decisions** - Key technical choices and rationale
+- [ ] **Environment Variables** - Required configuration (with `.env.example`)
+
+### Code Quality
+- [ ] Consistent code formatting (Prettier, ESLint)
+- [ ] TypeScript strict mode (if applicable)
+- [ ] No console errors or warnings
+- [ ] Responsive design tested on multiple viewports
+
+---
+
+## Evaluation Criteria
+
+| Category | Weight | Key Aspects |
+|----------|--------|-------------|
+| **Code Quality** | 25% | Clean, modular, maintainable code; SOLID principles; DRY |
+| **Frontend Implementation** | 20% | UI/UX design; state management; responsiveness; accessibility |
+| **Backend API Design** | 20% | Security; efficiency; error handling; RESTful conventions |
+| **Database Design** | 15% | Schema optimization; indexing; query efficiency; ORM usage |
+| **DevOps & CI/CD** | 15% | Docker configuration; pipeline automation; deployment readiness |
+| **Documentation** | 5% | Setup clarity; API docs; technical decisions |
+
+### Scoring Guidelines
+
+| Score | Description |
+|-------|-------------|
+| **Excellent** | Exceeds requirements with production-ready quality |
+| **Good** | Meets all requirements with clean implementation |
+| **Satisfactory** | Meets core requirements with minor issues |
+| **Needs Improvement** | Missing requirements or significant issues |
+
+---
+
+## Technical Stack Reference
+
+For reference, a recommended modern stack includes:
+
+| Layer | Technology Options |
+|-------|-------------------|
+| **Frontend** | React 18+ / Vue 3+ / Angular 17+ |
+| **Build Tool** | Vite / Webpack / Turbopack |
+| **Styling** | Tailwind CSS / styled-components / CSS Modules |
+| **State** | React Query / Redux Toolkit / Pinia / Zustand |
+| **Backend** | Express.js / NestJS / FastAPI / Django REST |
+| **Database** | PostgreSQL / MySQL / MongoDB |
+| **ORM** | Prisma / Sequelize / TypeORM / Mongoose |
+| **Auth** | JWT / Passport.js / OAuth 2.0 |
+| **Container** | Docker + Docker Compose |
+| **CI/CD** | GitHub Actions / GitLab CI / Jenkins |
+
+---
+
+## Questions & Support
+
+For clarification on requirements or technical questions, please reach out to the assessment coordinator.
+
+**Good luck!** We look forward to reviewing your implementation.
+
+---
+
+<sub>*Assessment Version 1.0 | Last Updated: January 2026*</sub>
