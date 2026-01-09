@@ -1,5 +1,5 @@
 import bcrypt from 'bcryptjs';
-import jwt from 'jsonwebtoken';
+import jwt, { type SignOptions } from 'jsonwebtoken';
 import { prisma } from '../config/database.js';
 import { config } from '../config/index.js';
 import { ConflictError, UnauthorizedError } from '../utils/errors.js';
@@ -119,6 +119,28 @@ export class AuthService {
   }
 
   /**
+   * Logout user
+   * In a more complete implementation, you would store the refresh token
+   * in a blacklist or use a token versioning system
+   */
+  async logout(userId: string): Promise<void> {
+    // Verify user exists
+    const user = await prisma.user.findUnique({
+      where: { id: userId },
+    });
+
+    if (!user) {
+      throw new UnauthorizedError('User not found');
+    }
+
+    // In a production system, you would:
+    // 1. Add the refresh token to a blacklist (Redis)
+    // 2. Or increment a token version in the user record
+    // 3. Or delete stored refresh tokens from database
+    // For now, the client-side will remove the tokens
+  }
+
+  /**
    * Get user by ID
    */
   async getUserById(userId: string): Promise<UserResponse | null> {
@@ -142,16 +164,15 @@ export class AuthService {
     const payload: JwtPayload = { userId, email };
 
     const accessToken = jwt.sign(payload, config.jwt.secret, {
-      expiresIn: config.jwt.expiresIn,
-    });
+      expiresIn: config.jwt.expiresIn as string | number,
+    } as SignOptions);
 
     const refreshToken = jwt.sign(payload, config.jwt.refreshSecret, {
-      expiresIn: config.jwt.refreshExpiresIn,
-    });
+      expiresIn: config.jwt.refreshExpiresIn as string | number,
+    } as SignOptions);
 
     return { accessToken, refreshToken };
   }
 }
 
 export const authService = new AuthService();
-

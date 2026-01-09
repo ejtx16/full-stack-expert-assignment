@@ -49,9 +49,9 @@ export const refresh = asyncHandler(async (req: Request, res: Response) => {
   );
 });
 
-export const logout = asyncHandler((_req: Request, res: Response) => {
-  // In a more complete implementation, you would invalidate the refresh token
-  // by storing it in a blacklist or using a token versioning system
+export const logout = asyncHandler(async (req: Request, res: Response) => {
+  const userId = req.user!.id;
+  await authService.logout(userId);
   sendSuccess(res, null, 'Logout successful');
 });
 
