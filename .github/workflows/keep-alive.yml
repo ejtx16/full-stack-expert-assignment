@@ -1,0 +1,30 @@
+name: Keep Render Services Alive
+
+on:
+  schedule:
+    # Run every 14 minutes to prevent Render spin-down (15 min threshold)
+    - cron: "*/14 * * * *"
+  workflow_dispatch: # Allow manual trigger
+
+jobs:
+  ping-services:
+    name: Ping Services
+    runs-on: ubuntu-latest
+    steps:
+      - name: Ping Frontend
+        run: |
+          echo "Pinging frontend..."
+          curl -s -o /dev/null -w "Frontend: HTTP %{http_code} (%{time_total}s)\n" \
+            https://taskmanager-frontend-vdo4.onrender.com/ || echo "Frontend ping failed"
+
+      - name: Ping Backend
+        env:
+          BACKEND_URL: ${{ secrets.RENDER_BACKEND_URL }}
+        run: |
+          if [ -z "$BACKEND_URL" ]; then
+            echo "RENDER_BACKEND_URL secret not set, skipping backend ping"
+            exit 0
+          fi
+          echo "Pinging backend..."
+          curl -s -o /dev/null -w "Backend: HTTP %{http_code} (%{time_total}s)\n" \
+            "$BACKEND_URL/api/health" || echo "Backend ping failed"
